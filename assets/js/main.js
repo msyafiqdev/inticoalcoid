@@ -34,6 +34,7 @@
       rtsJs.stickyHeader();
       rtsJs.smoothScroll();
       rtsJs.offcanvasActive();
+      rtsJs.navActive();
       rtsJs.searchModalActive();
       rtsJs.swiperActive();
       rtsJs.splitText();
@@ -127,6 +128,61 @@
           );
         }
       });
+    },
+    navActive: function () {
+      var $links = $(
+        '.header-nav-area .main-nav-area > ul > li > a[href^="#"]'
+      );
+
+      if (!$links.length) {
+        return;
+      }
+
+      var sections = [];
+
+      $links.each(function () {
+        var id = $(this).attr("href");
+        var $target = $(id);
+
+        if (id && id.length > 1 && $target.length) {
+          sections.push({
+            id: id,
+            target: $target,
+          });
+        }
+      });
+
+      function setActive(id) {
+        $links.removeClass("active").parent("li").removeClass("active");
+        $links
+          .filter('[href="' + id + '"]')
+          .addClass("active")
+          .parent("li")
+          .addClass("active");
+      }
+
+      function updateActive() {
+        var scrollPosition = $(window).scrollTop() + 180;
+        var currentId = window.location.hash || "";
+
+        sections.forEach(function (section) {
+          if (section.target.offset().top <= scrollPosition) {
+            currentId = section.id;
+          }
+        });
+
+        if (currentId && $(currentId).length) {
+          setActive(currentId);
+        }
+      }
+
+      $links.on("click", function () {
+        setActive($(this).attr("href"));
+      });
+
+      $(window).on("scroll resize", updateActive);
+      updateActive();
+      setTimeout(updateActive, 100);
     },
     searchModalActive: function () {
       $(document).on("click", ".search-icon", function (e) {

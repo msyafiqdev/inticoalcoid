@@ -9753,6 +9753,10 @@ button {
 .main-nav-area ul li:hover > a {
   color: var(--color-primary);
 }
+.rts-header-area.header-three .bottom-header-area .header-nav-area .main-nav-area ul li.active > a,
+.rts-header-area.header-three .bottom-header-area .header-nav-area .main-nav-area ul li > a.active {
+  color: var(--color-primary);
+}
 .main-nav-area ul li {
   /* ===== First Level Arrow ===== */
 }
